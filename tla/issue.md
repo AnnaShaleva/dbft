@@ -12,8 +12,8 @@ with a set of identified problems and propose ways to fix them in so-called dBFT
 
 We've created two models of dBFT 2.0 algorithm in TLA+. Please, consider reading
 the brief introduction to our modelling approach at
-[the README](https://github.com/nspcc-dev/dbft/blob/93bb5bbbc1a29ad548aac3542476538794d3716b/formal-models/README.md#dbft-formal-models)
-and take a look at the [base model](https://github.com/nspcc-dev/dbft/blob/93bb5bbbc1a29ad548aac3542476538794d3716b/formal-models/dbft/dbft.tla). 
+[the README](https://github.com/nspcc-dev/dbft/blob/master/formal-models/README.md#dbft-formal-models)
+and take a look at the [base model](https://github.com/nspcc-dev/dbft/blob/master/formal-models/dbft/dbft.tla).
 Below we present several error traces that were found by TLC Model Checker in the
 four-nodes network scenario.
 
@@ -129,9 +129,46 @@ It should be noted that dBFT 2.0 algorithm is expected to guarantee the block ac
 with at least `M` non-faulty ("alive" in this case) nodes, which isn't true in the
 described situation.
 
-### Further work
+#### 3. Running the TLC model checker with "faulty" nodes
+
+Both models allow to specify the set of malicious nodes indexes via `RMFault` model
+constant. "Faulty" nodes are allowed to send *any* valid message at *any* step of
+the behaviour. At the same time, weak fairness is required from the next-state
+action predicate for both models. It means if it's possible for the model to take
+any non-stuttering step, this step must eventually be taken. Thus, running the
+basic dBFT 2.0 model with single faulty and three non-faulty nodes doesn't reveal
+any model deadlock: the malicious node keep sending messages if possible to escape
+from the liveness lock. Moreover, the presence of faulty nodes significantly
+increases the states graph size, so that it takes quite a long time to evaluate
+the whole set of possible model behaviours.
+
+Nethertheless, it's a thought-provoking experiment to check the model specification
+behaviour with non-empty faulty nodes set.
+
+### dBFT 2.1 proposed models
 
 Based on the liveness issues found by the TLC Model Checker we've developed a couple
 of ways to improve dBFT 2.0 algorithm and completely avoid mentioned liveness and
-safety problems. The results will be posted here later, and for now we're welcoming
-you to join the discussion on the described topic.
+safety problems. The improved models will further be referred to as dBFT 2.1 models.
+Please, consider reading the improved dBFT 2.1 models description at
+[the README](https://github.com/nspcc-dev/dbft/blob/master/formal-models/README.md#proposed-dbft-21-models)
+and check the models TLA+ specifications.
+
+We believe that proposed models allow to solve the liveness lock problems. Anyone
+who has thoughts, ideas, questions, suggestions or doubts is welcomed to join the
+discussion. The proposed specifications may have bugs or inaccuracies thus we
+accept all kinds of reasoned comments and related feedback. If you have troubles
+with the models understanding/editing/checking, please, submit the issue to
+[our repo](https://github.com/nspcc-dev/dbft/issues/new).
+
+### Further work
+
+The whole idea of TLA+ dBFT modelling was to reveal and avoid the liveness lock
+problems so that we've got a troubleproofly operating consensus algorithm in our
+network. There are several directions for the further related work in our mind:
+
+1. Collect and process the community feedback on proposed TLA+ dBFT 2.0 and 2.1
+  specifications, fix the models (in case of any bugs found).
+2. Implement the improved dBFT 2.1 algorithm at the code level.
+3. Create TLA+ specification and investigate liveness problems of the dBFT 3.0
+  (double speaker model, https://github.com/neo-project/neo/issues/2029).

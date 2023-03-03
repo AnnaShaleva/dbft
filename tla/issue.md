@@ -161,12 +161,19 @@ following configurations and didn't find any liveness lock:
 Based on the liveness issues found by the TLC Model Checker we've developed a couple
 of ways to improve dBFT 2.0 algorithm and completely avoid mentioned liveness and
 safety problems. The improved models will further be referred to as dBFT 2.1 models.
-Please, consider reading the dBFT 2.1 models description at
+**The model descriptions and specifications are too large to attach them to this issue, thus,
+they are kept in a separate repo. Please, consider reading the dBFT 2.1 models description at
 [the README](https://github.com/roman-khimov/dbft/tree/master/formal-models/README.md#proposed-dbft-21-models)
-and check the models TLA+ specifications.
+and check the models TLA+ specifications.**
 
-We believe that proposed models allow to solve the liveness lock problems. Anyone
-who has thoughts, ideas, questions, suggestions or doubts is welcomed to join the
+We've run the TLC Model Checker to check the proposed dBFT 2.1 models with the same
+set of configurations as described above for the basic model. The TLC Model Checker
+didn't find any liveness properties violations both with `MaxView` constraint set to `1`
+and `MaxView` constraint set to `2` (see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)
+for clarification).
+
+We believe that proposed models allow to solve the liveness lock problems.
+Anyone who has thoughts, ideas, questions, suggestions or doubts is welcomed to join the
 discussion. The proposed specifications may have bugs or inaccuracies thus we
 accept all kinds of reasoned comments and related feedback. If you have troubles
 with the models understanding/editing/checking, please, don't hesitate to write a
@@ -179,7 +186,10 @@ problems so that we've got a normally operating consensus algorithm in our
 network. There are several directions for the further related work in our mind:
 
 1. Collect and process the community feedback on proposed TLA+ dBFT 2.0 and 2.1
-  specifications, fix the models (in case of any bugs found).
+  specifications, fix the models (in case of any bugs found). **The discussion period
+  is two months starting from the issue submitting date**. Please, consider writing
+  your feedback in time! After the discussion we're starting the dBFT 2.1 code-level
+  implementation based on the discussion results.
 2. Implement the improved dBFT 2.1 algorithm at the code level.
 3. Create TLA+ specification and investigate any potential problems of the dBFT 3.0
   (double speaker model, https://github.com/neo-project/neo/issues/2029).

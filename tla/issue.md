@@ -170,7 +170,7 @@ and check the models TLA+ specifications.**
 
 We've run the TLC Model Checker to check both proposed dBFT 2.1 models with the same
 set of configurations as described above for the basic model. Here's the table of
-configurations and model checking results (they are the same for both dBFT 2.1 models):
+configurations and model checking results (they are almost the same for both dBFT 2.1 models):
  
 | RM           | RMFault | RMDead | MaxView | Model checking result                                                                                                                                                                            |
 |--------------|---------|--------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -180,7 +180,8 @@ configurations and model checking results (they are the same for both dBFT 2.1 m
 | {0, 1, 2, 3} | {}      | {0}    | 2       | `NOT FINISHED`, TLC failed with OOM (too many states, see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)), no liveness lock found |
 | {0, 1, 2, 3} | {}      | {1}    | 1       | `PASSED`, no liveness lock found                                                                                                                                                                 |
 | {0, 1, 2, 3} | {}      | {1}    | 2       | `NOT FINISHED`, TLC failed with OOM (too many states, see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)), no liveness lock found |
-| {0, 1, 2, 3} | {0}     | {}     | 1       | `FAILED`, see the note below the table.                                                                                                                                                          |
+| {0, 1, 2, 3} | {0}     | {}     | 1       | `FAILED` for `dbftCV3.tla`, see the note below the table.                                                                                                                                        |
+| {0, 1, 2, 3} | {0}     | {}     | 1       | `NOT FINISHED` for `dbftCentralizedCV.tla` in reasonable time; the "faulty" node description probably needs some more care.                                                                      |
 
 Note for the `FAILED` case: assuming that malicious nodes are allowed to send literally
 *any* message at *any* step of the behaviour, non-empty `RMFault` set is able to ruin

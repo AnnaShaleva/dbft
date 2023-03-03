@@ -166,13 +166,39 @@ they are kept in a separate repo. Please, consider reading the dBFT 2.1 models d
 [the README](https://github.com/roman-khimov/dbft/tree/master/formal-models/README.md#proposed-dbft-21-models)
 and check the models TLA+ specifications.**
 
-We've run the TLC Model Checker to check the proposed dBFT 2.1 models with the same
-set of configurations as described above for the basic model. The TLC Model Checker
-didn't find any liveness properties violations both with `MaxView` constraint set to `1`
-and `MaxView` constraint set to `2` (see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)
+#### Running the TLC Model Checker on dBFT 2.1 models
+
+We've run the TLC Model Checker to check both proposed dBFT 2.1 models with the same
+set of configurations as described above for the basic model. Here's the table of
+configurations and model checking results (they are the same for both dBFT 2.1 models):
+ 
+| RM           | RMFault | RMDead | MaxView | Model checking result                                                                                                                                                                            |
+|--------------|---------|--------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {0, 1, 2, 3} | {}      | {}     | 1       | `PASSED`, no liveness lock found                                                                                                                                                                 |
+| {0, 1, 2, 3} | {}      | {}     | 2       | `NOT FINISHED`, TLC failed with OOM (too many states, see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)), no liveness lock found |
+| {0, 1, 2, 3} | {}      | {0}    | 1       | `PASSED`, no liveness lock found                                                                                                                                                                 |
+| {0, 1, 2, 3} | {}      | {0}    | 2       | `NOT FINISHED`, TLC failed with OOM (too many states, see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)), no liveness lock found |
+| {0, 1, 2, 3} | {}      | {1}    | 1       | `PASSED`, no liveness lock found                                                                                                                                                                 |
+| {0, 1, 2, 3} | {}      | {1}    | 2       | `NOT FINISHED`, TLC failed with OOM (too many states, see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)), no liveness lock found |
+| {0, 1, 2, 3} | {0}     | {}     | 1       | `FAILED`, see the note below the table.                                                                                                                                                          |
+
+Note for the `FAILED` case: assuming that malicious nodes are allowed to send literally
+*any* message at *any* step of the behaviour, non-empty `RMFault` set is able to ruin
+the whole consensus process. However, current dBFT 2.0 algorithm faces the liveness lock
+even with the "dead" nodes (the proposed dBFT 2.1 models successfully handle this case).
+Moreover, we believe that in real functioning network it's more likely to face with the
+first type of attack ("dead" nodes) rather than with the malicious clients intentionally
+sending *any* type of messages at *any* time. Thus, we believe that the dBFT 2.1 models
+perform much better than the dBFT 2.0 and solve the dBFT 2.0 liveness lock problems.
+
+Other than this, the TLC Model Checker didn't find any liveness properties violations
+for dBFT 2.1 models both with `MaxView` constraint set to `1` and `MaxView` constraint set to `2`
+(see the [model checking note](https://github.com/roman-khimov/dbft/tree/master/formal-models#model-checking-note)
 for clarification).
 
-We believe that proposed models allow to solve the liveness lock problems.
+#### Conclusion
+
+We believe that proposed dBFT 2.1 models allow to solve the dBFT 2.0 liveness lock problems.
 Anyone who has thoughts, ideas, questions, suggestions or doubts is welcomed to join the
 discussion. The proposed specifications may have bugs or inaccuracies thus we
 accept all kinds of reasoned comments and related feedback. If you have troubles

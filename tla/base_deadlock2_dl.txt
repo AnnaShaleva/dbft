@@ -1,0 +1,118 @@
+RMFault: {}
+MaxView: 2
+RMDead: {0}
+RM: {0, 1, 2, 3}
+
+<<
+[
+ _TEAction |-> [
+   position |-> 1,
+   name |-> "Initial predicate",
+   location |-> "Unknown location"
+ ],
+msgs |-> {},
+rmState |-> ( 0 :> [type |-> "initialized", view |-> 0] @@
+  1 :> [type |-> "initialized", view |-> 0] @@
+  2 :> [type |-> "initialized", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 2,
+   name |-> "RMSendPrepareRequest",
+   location |-> "line 127, col 3 to line 131, col 19 of module dbft"
+ ],
+msgs |-> {[type |-> "PrepareRequest", view |-> 0, rm |-> 0]},
+rmState |-> ( 0 :> [type |-> "prepareSent", view |-> 0] @@
+  1 :> [type |-> "initialized", view |-> 0] @@
+  2 :> [type |-> "initialized", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 3,
+   name |-> "RMDie",
+   location |-> "line 249, col 3 to line 252, col 23 of module dbft"
+ ],
+msgs |-> {[type |-> "PrepareRequest", view |-> 0, rm |-> 0]},
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "initialized", view |-> 0] @@
+  2 :> [type |-> "initialized", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 4,
+   name |-> "RMSendPrepareResponse",
+   location |-> "line 138, col 3 to line 145, col 19 of module dbft"
+ ],
+msgs |-> { [type |-> "PrepareRequest", view |-> 0, rm |-> 0],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 1] },
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "prepareSent", view |-> 0] @@
+  2 :> [type |-> "initialized", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 5,
+   name |-> "RMSendChangeView",
+   location |-> "line 174, col 3 to line 179, col 90 of module dbft"
+ ],
+msgs |-> { [type |-> "PrepareRequest", view |-> 0, rm |-> 0],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 1],
+  [type |-> "ChangeView", view |-> 0, rm |-> 1] },
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "cv", view |-> 0] @@
+  2 :> [type |-> "initialized", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 6,
+   name |-> "RMSendPrepareResponse",
+   location |-> "line 138, col 3 to line 145, col 19 of module dbft"
+ ],
+msgs |-> { [type |-> "PrepareRequest", view |-> 0, rm |-> 0],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 1],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 2],
+  [type |-> "ChangeView", view |-> 0, rm |-> 1] },
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "cv", view |-> 0] @@
+  2 :> [type |-> "prepareSent", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 7,
+   name |-> "RMSendCommit",
+   location |-> "line 150, col 3 to line 160, col 19 of module dbft"
+ ],
+msgs |-> { [type |-> "PrepareRequest", view |-> 0, rm |-> 0],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 1],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 2],
+  [type |-> "Commit", view |-> 0, rm |-> 2],
+  [type |-> "ChangeView", view |-> 0, rm |-> 1] },
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "cv", view |-> 0] @@
+  2 :> [type |-> "commitSent", view |-> 0] @@
+  3 :> [type |-> "initialized", view |-> 0] )
+],
+[
+ _TEAction |-> [
+   position |-> 8,
+   name |-> "RMSendChangeView",
+   location |-> "line 174, col 3 to line 179, col 90 of module dbft"
+ ],
+msgs |-> { [type |-> "PrepareRequest", view |-> 0, rm |-> 0],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 1],
+  [type |-> "PrepareResponse", view |-> 0, rm |-> 2],
+  [type |-> "Commit", view |-> 0, rm |-> 2],
+  [type |-> "ChangeView", view |-> 0, rm |-> 1],
+  [type |-> "ChangeView", view |-> 0, rm |-> 3] },
+rmState |-> ( 0 :> [type |-> "dead", view |-> 0] @@
+  1 :> [type |-> "cv", view |-> 0] @@
+  2 :> [type |-> "commitSent", view |-> 0] @@
+  3 :> [type |-> "cv", view |-> 0] )
+]
+>>
